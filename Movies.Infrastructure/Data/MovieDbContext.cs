@@ -52,7 +52,7 @@ namespace Movies.Infrastructure.Data
 
                 builder.HasMany(c => c.Studios)  // ქვეყნის ფროფერთი Studio უკავშირდება სტუდიოს ფროფერთის Country. (c => c.Studios)  c-country object, s-studio property of c. ( s => s.Country)    s is object of Studio, and Country is iths property.
                       .WithOne(s => s.Country)/// ეს ფროფერთია და არა კლასი.
-                      .HasForeignKey(s => s.CountryId);    //სტუდიოს ველი.
+                      .HasForeignKey(s => s.CountryId).OnDelete(DeleteBehavior.Cascade);    //სტუდიოს ველი.
             });
 
             modelBuilder.Entity<Actor>(builder =>
@@ -71,11 +71,11 @@ namespace Movies.Infrastructure.Data
 
                 builder.HasOne(x =>x.StudioDetails)
                        .WithOne(x=> x.Studio)
-                       .HasForeignKey<StudioDetails>(sd => sd.StudioId);
+                       .HasForeignKey<StudioDetails>(sd => sd.StudioId).OnDelete(DeleteBehavior.Cascade);
 
                 builder.HasMany(s => s.Movies)
                        .WithOne(m => m.Studio)
-                       .HasForeignKey(m => m.StudioId);
+                       .HasForeignKey(m => m.StudioId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<StudioDetails>(builder =>
