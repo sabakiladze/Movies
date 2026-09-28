@@ -13,20 +13,32 @@ namespace Movies.Infrastructure.Data
     {
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Actor> Actors { get; set; }
-        public DbSet<Country> Directors { get; set; }
-        public DbSet<Studio> Genres { get; set; }
+        public DbSet<Country> Countrys { get; set; }
+        public DbSet<Studio> Studios { get; set; }
         public DbSet<StudioDetails> StudioDetails { get; set; }
+
+        public MovieDbContext()
+        {
+            
+        }
+        public MovieDbContext(DbContextOptions<MovieDbContext> options):base(options) 
+        {
+            
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
+            if (!optionsBuilder.IsConfigured)
+            {
+                IConfiguration configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppContext.BaseDirectory)
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .Build();
 
-            var _connectionString = configuration.GetConnectionString("DefaultConnection");
+                var _connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            optionsBuilder.UseSqlServer(_connectionString);
+                optionsBuilder.UseSqlServer(_connectionString);
+            }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
