@@ -1,5 +1,5 @@
 ﻿using Movies.Application.Interfaces;
-using Movies.Domain.Entities.DTOs;
+using Movies.Domain.Entities.DTOs.MovieDtos;
 using Movies.Domain.Entities.Models;
 using Movies.Domain.Interfaces;
 using System;
@@ -13,9 +13,11 @@ namespace Movies.Application.Services
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
-        public MovieService(IMovieRepository movieRepository)
+        private readonly IUnitOfWork _iUnitOfWork;
+        public MovieService(IMovieRepository movieRepository, IUnitOfWork iUnitOfWork)
         {
              _movieRepository= movieRepository;
+            _iUnitOfWork= iUnitOfWork;
         }
 
         public async Task<MovieDto> UpdateMovieAsync(int id, UpdateMovieDto movie)
@@ -28,6 +30,8 @@ namespace Movies.Application.Services
 
             await _movieRepository.UpdateMovieAsync(id, movie);
 
+            await _iUnitOfWork.SaveChangesAsync();
+
             return new MovieDto
             {
                 Id = existingMovie.Id,
@@ -36,7 +40,7 @@ namespace Movies.Application.Services
                 StudioName = existingMovie.Studio?.Name
 
             };
-
+            
 
 
         }
@@ -73,6 +77,8 @@ namespace Movies.Application.Services
 
 
             await _movieRepository.AddMovieAsync(movie);
+            await _iUnitOfWork.SaveChangesAsync();
+
         }
 
         public async Task<ICollection<MovieDto>> GetAllMoviesAsync()
@@ -107,13 +113,80 @@ namespace Movies.Application.Services
             };
         }
 
-        public Task DeleteMovieByIdAsync(int id)
+        public async Task DeleteMovieByIdAsync(int id)
         {
             if (id <= 0) throw new ArgumentException("inputed id is invalid");
-            _movieRepository.DeleteMovieByIdAsync(id);
-            return Task.CompletedTask;
+           await  _movieRepository.DeleteMovieByIdAsync(id);
+
+            await _iUnitOfWork.SaveChangesAsync();
         }
 
-        
+        public async Task<ICollection<SearchMovieDto>> SearchMoviesByStudioAsync(
+             int year, string studioName, int minimumActorCount)
+        {
+            #region validation
+            if (year < 0)
+            {
+                throw new ArgumentException("Year cannot be negative.", nameof(year));
+            }
+            if (string.IsNullOrWhiteSpace(studioName))
+            {
+                throw new ArgumentException("Studio name cannot be null or empty.", nameof(studioName));
+            }
+            if (minimumActorCount < 0)
+            {
+                throw new ArgumentException("Minimum actor count cannot be negative.", nameof(minimumActorCount));
+            }
+
+            #endregion
+
+
+            var movies = await _movieRepository.SearchMoviesByStudioAsync(year, studioName, minimumActorCount);
+
+            return movies.Select(MapMovieDTO).ToList();
+        }
+
+
+
+
+        public async Task<ICollection<SearchMovieDto>> SearchMoviesByCountryAsync(
+                string countryName,
+            int minimumYear,
+            int maximumActorCount)
+        {
+           
+            if (minimumYear < 0)
+            {
+                throw new ArgumentException("Year cannot be negative.", nameof(minimumYear));
+            }
+            if (string.IsNullOrWhiteSpace(countryName))
+            {
+                throw new ArgumentException("Studio name cannot be null or empty.", nameof(countryName));
+            }
+            if (maximumActorCount < 0)
+            {
+                throw new ArgumentException("Minimum actor count cannot be negative.", nameof(maximumActorCount));
+            }
+
+            
+
+
+            var movies = await _movieRepository.SearchMoviesByCountryAsync(countryName, minimumYear, maximumActorCount);
+            return movies.Select(x=>MapMovieDTO(x)).ToList();
+        }
+
+        private static SearchMovieDto MapMovieDTO(Movie movie)
+        {
+            return new SearchMovieDto
+            {
+                Title = movie.Title,
+                ReleaseYear = movie.ReleaseYear,
+                StudioName = movie.Studio.Name,
+                CountryName = movie.Studio.Country.Name,
+                ActorCount = movie.Actors.Count
+            };
+
+        }
     }
+
 }

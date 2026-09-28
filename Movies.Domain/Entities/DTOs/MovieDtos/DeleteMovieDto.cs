@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movies.Domain.Entities.DTOs
+namespace Movies.Domain.Entities.DTOs.MovieDtos
 {
     public class DeleteMovieDto
     {

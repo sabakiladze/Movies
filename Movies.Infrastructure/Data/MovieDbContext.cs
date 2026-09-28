@@ -46,8 +46,7 @@ namespace Movies.Infrastructure.Data
             modelBuilder.Entity<Country>(builder =>
             {
                 builder.ToTable("Countries");
-                builder.HasKey(x => x.Id);
-                builder.Property(x => x.Id).HasDefaultValueSql("NEWID()"); // თუ Guid-ს იყენებ ID-დ
+                builder.HasKey(x => x.Id); 
                 builder.Property(x => x.Name).HasColumnType("varchar(100)").IsRequired();
 
                 builder.HasMany(c => c.Studios)  // ქვეყნის ფროფერთი Studio უკავშირდება სტუდიოს ფროფერთის Country. (c => c.Studios)  c-country object, s-studio property of c. ( s => s.Country)    s is object of Studio, and Country is iths property.

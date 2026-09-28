@@ -1,4 +1,4 @@
-﻿using Movies.Domain.Entities.DTOs;
+﻿using Movies.Domain.Entities.DTOs.MovieDtos;
 using Movies.Domain.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -17,6 +17,23 @@ namespace Movies.Domain.Interfaces
 
         Task DeleteMovieByIdAsync(int id);
         Task UpdateMovieAsync(int id, UpdateMovieDto movie);
+
+        
+        Task<ICollection<Movie>> SearchMoviesAdvancedAsync(
+            int fromYear,
+            int toYear,
+            string countryName,
+            string titleText,
+            int minimumActorCount);
+        Task<ICollection<Movie>> SearchMoviesByCountryAsync(
+           string countryName,
+           int minimumYear,
+           int maximumActorCount);
+
+        Task<ICollection<Movie>> SearchMoviesByStudioAsync(
+            int year,
+            string studioName,
+            int minimumActorCount);
     }
 }
 

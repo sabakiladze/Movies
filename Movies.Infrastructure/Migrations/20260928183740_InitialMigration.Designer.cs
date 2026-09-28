@@ -11,8 +11,8 @@ using Movies.Infrastructure.Data;
 namespace Movies.Infrastructure.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20260922151126_AddedOnDeleteCascade")]
-    partial class AddedOnDeleteCascade
+    [Migration("20260928183740_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,8 +64,9 @@ namespace Movies.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
