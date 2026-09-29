@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Testing.Platform.Extensions.TestFramework;
 using Movies.Domain.Entities.Models;
 using Movies.Infrastructure.Data;
 using Movies.Infrastructure.Repositories;
@@ -34,9 +35,9 @@ namespace Movie.Test.RepositoriesTest
             context.Studios.Add(studio);
 
             var movie1 = new Movies.Domain.Entities.Models.Movie { Id = 1, Title = "Avangers", ReleaseYear = 2012, Studio = studio, StudioId = studio.Id };
-            var movie2= new Movies.Domain.Entities.Models.Movie { Id = 2, Title = "Avangers endgame", ReleaseYear = 2019, Studio = studio, StudioId = studio.Id }
+            var movie2 = new Movies.Domain.Entities.Models.Movie { Id = 2, Title = "Avangers endgame", ReleaseYear = 2019, Studio = studio, StudioId = studio.Id };
 
-            context.Movies.AddRange(movie1);
+            context.Movies.AddRange(movie1,movie2);
             await context.SaveChangesAsync();
 
             var sut = new MovieRepository(context); // შევქმენით MovieRepository რომელსაც გადავცემთ ყალბ ბაზას.
@@ -50,10 +51,39 @@ namespace Movie.Test.RepositoriesTest
             //Assert
 
             Assert.Equal(2, result.Count);
+            Assert.Contains(result, x => x.Id == 1);
+            Assert.Equal(1, result.First().Id);
+
+            Assert.Null(movie1.Actors);
+            Assert.Null(movie2.Actors);
+
 
             // აქ მოვიძიო რა ტიპის Asserts შემიძ₾ია კიდევ.
         }
 
+        [Fact]
+        public async Task AddMovieAsync_AddsMovie()
+        {
+            //Arange
+            var context = CreateContext();
+
+            var sut = new MovieRepository(context); // შევქმენით MovieRepository რომელსაც გადავცემთ ყალბ ბაზას.
+                                                    // რეპოზიტორის დეპენდენცი ინჯეცტიონ ით ხოიმ გადავცემდი ბაზას და ეგ პონტია აქაც.
+                                                    // context ყალბი ბაზა
+
+            var movie =  new Movies.Domain.Entities.Models.Movie { Id = 3, Title = "Avangers", ReleaseYear = 2012 };
+
+            //Act
+            await repository.AddMovieAsync(movie);
+            await context.SaveChangesAsync();
+
+            var movies = context.Movies.FirstOrDefault(x => x.Id == 3);
+
+            //Assert
+            Assert.Null(movies);
+            Assert.Null(movies.Studio);
+
+        }
 
 
 
