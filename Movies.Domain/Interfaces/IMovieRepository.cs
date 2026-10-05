@@ -34,6 +34,8 @@ namespace Movies.Domain.Interfaces
             int year,
             string studioName,
             int minimumActorCount);
+
+        Task<int> GetCountOfMovies();
     }
 }
 

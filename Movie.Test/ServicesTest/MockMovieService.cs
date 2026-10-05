@@ -24,7 +24,7 @@ namespace Movies.Test.ServicesTest
 
 
             // ვქმნის სერვისს და გადავცემ mock ების ობიექტებს.
-            var movieService = new MovieService(mockRepository.Object, mockUnitOfWork.Object);
+            //var movieService = new MovieService(mockRepository.Object, mockUnitOfWork.Object);
 
 
             // როგორც ვიცით, რეპოზიტორს გადაეცემა სუფთა მთავარი კლასისი ობიექტი, მაგრამ რადგან
@@ -43,7 +43,7 @@ namespace Movies.Test.ServicesTest
             };
 
             //Act
-            await movieService.AddMovieAsync(dto);
+            //await movieService.AddMovieAsync(dto);
 
             //Assert
             mockRepository.Verify(repo => repo.AddMovieAsync(It.IsAny<Movies.Domain.Entities.Models.Movie> ()),

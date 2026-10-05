@@ -12,6 +12,7 @@ namespace Movies.Domain.Interfaces
     {
         Task<ICollection<Studio>> GetAllStudios();
         Task CreateStudio(Studio dto);
+        Task<Studio?> SearchStudioById(int id);
 
     }
 }

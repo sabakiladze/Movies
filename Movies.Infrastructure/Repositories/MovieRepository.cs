@@ -39,6 +39,12 @@ namespace Movies.Infrastructure.Repositories
             return await _movieDbContext.Movies.Include(x => x.Studio).ToListAsync();
         }
 
+        public async Task<int> GetCountOfMovies()
+        {
+            return  await _movieDbContext.Movies.AnyAsync() ? await _movieDbContext.Movies.MaxAsync(m => m.Id): 0;
+
+        }
+
         public async Task<Movie> GetMovieByIdAsync(int id)
         {
             return await _movieDbContext.Movies.Include(m => m.Studio)

@@ -14,10 +14,13 @@ namespace Movies.Application.Services
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IUnitOfWork _iUnitOfWork;
-        public MovieService(IMovieRepository movieRepository, IUnitOfWork iUnitOfWork)
+        private readonly IStudioRepository _studioRepository;
+
+        public MovieService(IMovieRepository movieRepository, IUnitOfWork iUnitOfWork, IStudioRepository studioRepository)
         {
              _movieRepository= movieRepository;
             _iUnitOfWork= iUnitOfWork;
+            _studioRepository= studioRepository;
         }
 
         public async Task<MovieDto> UpdateMovieAsync(int id, UpdateMovieDto movie)
@@ -67,9 +70,16 @@ namespace Movies.Application.Services
             {
                 throw new ArgumentException("Movie studio ID must be a positive integer.", nameof(movieDto.StudioId));
             }
+            if(await _studioRepository.SearchStudioById(movieDto.StudioId) == null)
+            {
+                throw new ArgumentException($"Studio with ID {movieDto.StudioId} does not exist.", nameof(movieDto.StudioId));
+            }
 
+            var idcount = Convert.ToInt32(await _movieRepository.GetCountOfMovies());
             var movie = new Movie
             {
+                
+                Id = idcount+1,
                 Title = movieDto.Title,
                 ReleaseYear = movieDto.ReleaseYear,
                 StudioId = movieDto.StudioId

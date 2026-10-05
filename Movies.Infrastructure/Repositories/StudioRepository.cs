@@ -29,5 +29,11 @@ namespace Movies.Infrastructure.Repositories
                 .Include(x=>x.Movies).Include(x=>x.Country)
                 .ToListAsync();
         }
+
+        public async Task<Studio?> SearchStudioById(int id)
+        {
+            return await _movieDbContext.Studios.FirstOrDefaultAsync(x=>x.Id==id);
+              }
+    
     }
 }

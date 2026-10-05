@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Movies.Application.Interfaces;
 using Movies.Domain.Entities.DTOs.MovieDtos;
 using Movies.Domain.Interfaces;
 using Movies.Infrastructure.Repositories;
@@ -8,10 +9,10 @@ namespace Movie.Web.Pages
 {
     public class AddMovieModel : PageModel
     {
-        private readonly IMovieRepository _movieRepository;
-        public AddMovieModel(IMovieRepository movieRepositor)
+        private readonly IMovieService _movieService;
+        public AddMovieModel(IMovieService movieService)
         {
-            _movieRepository = movieRepositor;
+            _movieService = movieService;
         }
 
         // [BindProperty] უზრუნველყოფს, რომ HTML ფორმიდან მონაცემები ავტომატურად ჩაიწეროს ამ ობიექტში
@@ -36,18 +37,15 @@ namespace Movie.Web.Pages
 
             try
             {
-                var movie = new Movies.Domain.Entities.Models.Movie
-                {
-                    Title = Input.Title,
-                    ReleaseYear = Input.ReleaseYear,
-                    StudioId = Input.StudioId
-                };
+                
+                await _movieService.AddMovieAsync(Input);
 
-                await _movieRepository.AddMovieAsync(movie);
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, ex.Message);
+                var errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+
+                ModelState.AddModelError(string.Empty, $"შეცდომა: {errorMessage}");
                 return Page();
             }
             return RedirectToPage("/MoviePage");

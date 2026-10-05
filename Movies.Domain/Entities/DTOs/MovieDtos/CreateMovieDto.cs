@@ -8,7 +8,8 @@ namespace Movies.Domain.Entities.DTOs.MovieDtos
 {
     public class CreateMovieDto
     {
-        public string ?Title { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
         public int ReleaseYear { get; set; }
         public int StudioId { get; set; }
     }
