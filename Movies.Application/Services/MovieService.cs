@@ -37,7 +37,7 @@ namespace Movies.Application.Services
                 Id = existingMovie.Id,
                 Title = existingMovie.Title,
                 ReleaseYear = existingMovie.ReleaseYear,
-                StudioName = existingMovie.Studio?.Name
+                //StudioName = existingMovie.Studio?.Name
 
             };
             

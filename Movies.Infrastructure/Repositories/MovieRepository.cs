@@ -36,7 +36,7 @@ namespace Movies.Infrastructure.Repositories
 
         public async Task<ICollection<Movie>> GetAllMoviesAsync()
         {
-            return await _movieDbContext.Movies.Include(x=>x.Studio).ToListAsync();
+            return await _movieDbContext.Movies.Include(x => x.Studio).ToListAsync();
         }
 
         public async Task<Movie> GetMovieByIdAsync(int id)

@@ -1,0 +1,42 @@
+﻿@page
+@model Movie.Web.Pages.InMoviePageModel
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<div class="container mt-4">
+    <h2>Movies</h2>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+        @if (Model.Movies != null && Model.Movies.Any())
+        @* Checking if the movie list is not null and has items *@
+        {
+            @foreach (var movie in Model.Movies)
+            @* Iterating through each movie item in the collection *@
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <!-- ფილმის სათაური -->
+                            <h5 class="card-title text-primary">@movie.Title</h5>
+
+                            <!-- გამოშვების წელი -->
+                            <h6 class="card-subtitle mb-2 text-muted">Release Year: @movie.ReleaseYear</h6>
+
+                             <!-- სტუდიის სახელი -->
+                            <p class="card-text mt-3">
+                                <strong>Studio:</strong> @movie.StudioName
+                            </p> 
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <p class="text-center text-muted">Movies not found.</p>
+            </div>
+        }
+    </div>
+</div>

@@ -48,6 +48,7 @@ namespace Movies.Infrastructure.Data
             {
                 builder.ToTable("Movies");
                 builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).ValueGeneratedNever();
                 builder.Property(x => x.Title).HasColumnType("varchar(150)").IsRequired();
 
                 builder.HasMany(m => m.Actors)
@@ -58,7 +59,8 @@ namespace Movies.Infrastructure.Data
             modelBuilder.Entity<Country>(builder =>
             {
                 builder.ToTable("Countries");
-                builder.HasKey(x => x.Id); 
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).ValueGeneratedNever();
                 builder.Property(x => x.Name).HasColumnType("varchar(100)").IsRequired();
 
                 builder.HasMany(c => c.Studios)  // ქვეყნის ფროფერთი Studio უკავშირდება სტუდიოს ფროფერთის Country. (c => c.Studios)  c-country object, s-studio property of c. ( s => s.Country)    s is object of Studio, and Country is iths property.
@@ -70,6 +72,7 @@ namespace Movies.Infrastructure.Data
             {
                 builder.ToTable("Actors");
                 builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).ValueGeneratedNever();
                 builder.Property(x => x.FirstName).HasColumnType("varchar(100)").IsRequired();
                 builder.Property(x => x.LastName).HasColumnType("varchar(100)").IsRequired();
             });
@@ -78,6 +81,7 @@ namespace Movies.Infrastructure.Data
             {
                 builder.ToTable("Studios");
                 builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).ValueGeneratedNever();
                 builder.Property(x => x.Name).HasColumnType("varchar(100)").IsRequired();
 
                 builder.HasOne(x =>x.StudioDetails)
@@ -93,6 +97,7 @@ namespace Movies.Infrastructure.Data
             {
                 builder.ToTable("StudioDetails");
                 builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).ValueGeneratedNever();
                 builder.Property(x => x.LicenseNumber).IsRequired();
             });
 

@@ -64,6 +64,15 @@ namespace Movie.Test.RepositoriesTest
         [Fact]
         public async Task AddMovieAsync_AddsMovie()
         {
+
+            // ასინქრონული მეტოდების გათიშვაში,
+            // თუ რამე დარჩა გახსნილი მაშინ თვითონ გათიშავს.
+            // მაგალითად თუ thread მორჩა მაშინ დავხრუოთ thread.
+            // ხოლო  cansallation token თუ რამე მოხდა შეცდომით მაშინ thread თვითონ გატიშავს.
+            // შემიძ₾ია ეს გადავცე მეთოდებს. ანუ  მენმაგალითად რეპოზიტორის მეთოდს,  სერვისისაც,
+            // ანუ ყველა იმას რომელიც იყენებს async, სახელში უწერია async.
+            CancellationToken cto = default;
+
             //Arange
             var context = CreateContext();
 
@@ -74,7 +83,7 @@ namespace Movie.Test.RepositoriesTest
             var movie =  new Movies.Domain.Entities.Models.Movie { Id = 3, Title = "Avangers", ReleaseYear = 2012 };
 
             //Act
-            await repository.AddMovieAsync(movie);
+            await sut.AddMovieAsync(movie);
             await context.SaveChangesAsync();
 
             var movies = context.Movies.FirstOrDefault(x => x.Id == 3);

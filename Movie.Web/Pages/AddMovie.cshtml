@@ -1,0 +1,54 @@
+﻿@page
+@model Movie.Web.Pages.AddMovieModel
+@{
+    ViewData["Title"] = "Add Movie";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <h2>Add New Movie</h2>
+
+    <!-- წარმატების შეტყობინება (თუ საჭიროა) -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <!-- გლობალური შეცდომების წითელი ფანჯარა (ModelState-დან და Exception-იდან) -->
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+    }
+    <form method="post" class="mt-4">
+        <!-- ფილმის სათაური -->
+        <div class="mb-3">
+            <label asp-for="Input.Title" class="form-label">Title</label>
+            <input asp-for="Input.Title" class="form-control" />
+            <span asp-validation-for="Input.Title" class="text-danger"></span>
+        </div>
+
+        <!-- გამოშვების წელი -->
+        <div class="mb-3">
+            <label asp-for="Input.ReleaseYear" class="form-label">Release Year</label>
+            <input asp-for="Input.ReleaseYear" class="form-control" type="number" />
+            <span asp-validation-for="Input.ReleaseYear" class="text-danger"></span>
+        </div>
+
+        @* <!-- სტუდიის ID -->
+        <div class="mb-3">
+            <label asp-for="Input.StudioId" class="form-label">Studio ID</label>
+            <input asp-for="Input.StudioId" class="form-control" type="number" />
+            <span asp-validation-for="Input.StudioId" class="text-danger"></span>
+        </div> *@
+
+        <!-- ღილაკები -->
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a asp-page="/MoviePage" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+
+@section Scripts {
+    <!-- კლიენტის მხარის (Client-side) ვალიდაციისთვის აუცილებელი სკრიპტები -->
+    <partial name="_ValidationScriptsPartial" />
+}

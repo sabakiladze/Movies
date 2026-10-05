@@ -13,6 +13,6 @@ namespace Movies.Domain.Entities.Models
         public int ReleaseYear { get; set; }
         public int StudioId { get; set; }
         public Studio Studio { get; set; } = null!;
-        public ICollection<Actor> Actors { get; set;} = new List<Actor>();
+        public ICollection<Actor> Actors { get; set; } = new List<Actor>();
     }
 }
