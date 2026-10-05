@@ -47,7 +47,7 @@ namespace Movies.Infrastructure.Repositories
 
         public async Task<Movie> GetMovieByIdAsync(int id)
         {
-            return await _movieDbContext.Movies.Include(m => m.Studio)
+            return await _movieDbContext.Movies.Include(m => m.Studio).Include(x=>x.Actors)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 

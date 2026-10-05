@@ -120,6 +120,7 @@ namespace Movies.Application.Services
                 Title = movie.Title,
                 ReleaseYear = movie.ReleaseYear,
                 StudioName = movie.Studio.Name,
+                ActorName = movie.Actors.Select(x => $"{x.FirstName}  {x.LastName}").ToList()
             };
         }
 

@@ -26,7 +26,10 @@
                              <!-- სტუდიის სახელი -->
                             <p class="card-text mt-3">
                                 <strong>Studio:</strong> @movie.StudioName
-                            </p> 
+                            </p>
+                            <a asp-page="/MovieDetails" asp-route-id="@movie.Id" class="btn btn-outline-primary btn-sm">
+                                See Details
+                            </a>
                         </div>
                     </div>
                 </div>

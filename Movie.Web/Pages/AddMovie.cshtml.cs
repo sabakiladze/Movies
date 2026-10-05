@@ -39,13 +39,14 @@ namespace Movie.Web.Pages
             {
                 
                 await _movieService.AddMovieAsync(Input);
+                TempData["SuccessMessage"] = "Movie Added syccessfully!";
 
             }
             catch (Exception ex)
             {
                 var errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
 
-                ModelState.AddModelError(string.Empty, $"შეცდომა: {errorMessage}");
+                ModelState.AddModelError(string.Empty, $"Error: {errorMessage}");
                 return Page();
             }
             return RedirectToPage("/MoviePage");

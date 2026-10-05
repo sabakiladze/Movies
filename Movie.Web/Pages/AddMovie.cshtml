@@ -14,6 +14,13 @@
             @TempData["SuccessMessage"]
         </div>
     }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
     <!-- გლობალური შეცდომების წითელი ფანჯარა (ModelState-დან და Exception-იდან) -->
     @if (!ViewData.ModelState.IsValid)

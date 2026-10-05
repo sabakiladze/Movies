@@ -12,6 +12,8 @@ namespace Movies.Domain.Entities.DTOs.MovieDtos
         public string? Title { get; set; }
         public int ReleaseYear { get; set; }
         public string ?StudioName { get; set; }
+        public List<string> ActorName = [];
+        
 
         public override string? ToString()
         {
