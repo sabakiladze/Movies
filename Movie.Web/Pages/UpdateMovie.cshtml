@@ -1,4 +1,4 @@
-﻿@page "{id:int}"
+﻿@page 
 @model Movie.Web.Pages.UpdateMovieModel
 @{
     ViewData["Title"] = "Update Movie";
@@ -27,24 +27,30 @@
                         <!-- ვალიდაციის ზოგადი შეჯამება (ასეთის არსებობის შემთხვევაში) -->
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
+                        <div class="mb-3">
+                            <label asp-for="Id" class="form-label">Movie ID (ფილმის ID)</label>
+                            <input asp-for="Id" class="form-control" type="number" placeholder="შეიყვანეთ ფილმის ID" />
+                            <span asp-validation-for="Id" class="text-danger"></span>
+                        </div>
+
                         <!-- ფილმის სათაური -->
                         <div class="mb-3">
                             <label asp-for="Movie.Title" class="form-label">Title (Title)</label>
-                            <input asp-for="Movie.Title" class="form-control" placeholder="შეიყვანეთ ფილმის სათაური" />
+                            <input asp-for="Movie.Title" class="form-control" placeholder="Enter Movie Title" />
                             <span asp-validation-for="Movie.Title" class="text-danger"></span>
                         </div>
 
                         <!-- გამოშვების წელი -->
                         <div class="mb-3">
                             <label asp-for="Movie.ReleaseYear" class="form-label">Release Year (Release Year)</label>
-                            <input asp-for="Movie.ReleaseYear" class="form-control" type="number" placeholder="მაგ: 2023" />
+                            <input asp-for="Movie.ReleaseYear" class="form-control" type="number" placeholder="e.g.: 2023" />
                             <span asp-validation-for="Movie.ReleaseYear" class="text-danger"></span>
                         </div>
 
                         <!-- Studio ID (რადგან DTO-ში StudioId-ია, როგორც წესი რედაქტირებისთვის ინპუთი სჭირდება) -->
                         <div class="mb-3">
                             <label asp-for="Movie.StudioId" class="form-label">Studio Id (Studio ID)</label>
-                            <input asp-for="Movie.StudioId" class="form-control" type="number" placeholder="შეიყვანეთ სტუდიის ID" />
+                            <input asp-for="Movie.StudioId" class="form-control" type="number" placeholder="Enter studio ID" />
                             <span asp-validation-for="Movie.StudioId" class="text-danger"></span>
                         </div>
 

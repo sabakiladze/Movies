@@ -19,7 +19,7 @@ namespace Movie.Web.Pages
         [BindProperty]
         public UpdateMovieDto? Movie { get; set; } = new UpdateMovieDto();
 
-        [BindProperty(SupportsGet = true)] //ატრიბუტი გამოიყენება იმისთვის,
+         //ატრიბუტი გამოიყენება იმისთვის,
                                            //რომ URL-იდან(Query String-იდან ან Route-იდან)
         // ამას დააკვირდი კიდევ კარგაად      //მოსული მონაცემები ავტომატურად ჩაიწეროს PageModel-ის
                                            //პროპერთიში GET მოთხოვნის დროსაც.    
