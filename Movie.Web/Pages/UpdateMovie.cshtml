@@ -1,0 +1,72 @@
+﻿@page "{id:int}"
+@model Movie.Web.Pages.UpdateMovieModel
+@{
+    ViewData["Title"] = "Update Movie";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <!-- წარმატების ან შეცდომის შეტყობინებები TempData-დან -->
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["ErrorMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Update Movie (Update Movie)</h3>
+                </div>
+                <div class="card-body">
+
+                    <form method="post">
+                        <!-- ვალიდაციის ზოგადი შეჯამება (ასეთის არსებობის შემთხვევაში) -->
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- ფილმის სათაური -->
+                        <div class="mb-3">
+                            <label asp-for="Movie.Title" class="form-label">Title (Title)</label>
+                            <input asp-for="Movie.Title" class="form-control" placeholder="შეიყვანეთ ფილმის სათაური" />
+                            <span asp-validation-for="Movie.Title" class="text-danger"></span>
+                        </div>
+
+                        <!-- გამოშვების წელი -->
+                        <div class="mb-3">
+                            <label asp-for="Movie.ReleaseYear" class="form-label">Release Year (Release Year)</label>
+                            <input asp-for="Movie.ReleaseYear" class="form-control" type="number" placeholder="მაგ: 2023" />
+                            <span asp-validation-for="Movie.ReleaseYear" class="text-danger"></span>
+                        </div>
+
+                        <!-- Studio ID (რადგან DTO-ში StudioId-ია, როგორც წესი რედაქტირებისთვის ინპუთი სჭირდება) -->
+                        <div class="mb-3">
+                            <label asp-for="Movie.StudioId" class="form-label">Studio Id (Studio ID)</label>
+                            <input asp-for="Movie.StudioId" class="form-control" type="number" placeholder="შეიყვანეთ სტუდიის ID" />
+                            <span asp-validation-for="Movie.StudioId" class="text-danger"></span>
+                        </div>
+
+                        <!-- ღილაკები -->
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="/MoviePage" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Back
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-lg"></i> Submit
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- კლიენტის მხარეს ვალიდაციისთვის აუცილებელი სკრიპტები -->
+    <partial name="_ValidationScriptsPartial" />
+}
